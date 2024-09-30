@@ -10,7 +10,7 @@ import edu.luc.etl.cs313.android.shapes.model.*;
  */
 public class Draw implements Visitor<Void> {
 
-    // TODO entirely your job (except onCircle)
+    // TODO entirely your job (except onCircle) **DONE -k
 
     private final Canvas canvas;
 
@@ -69,22 +69,36 @@ public class Draw implements Visitor<Void> {
 
     @Override
     public Void onRectangle(final Rectangle r) {
-
+        // draws rectangle at (0, 0), getWidth/getHeight adjusts based on requirements
+        canvas.drawRect(0, 0, r.getWidth(), r.getHeight(), paint); // draw the rectangle
         return null;
     }
 
     @Override
     public Void onOutline(Outline o) {
-
+        // draws outline based on the inner shape
+        Style originalStyle = paint.getStyle(); // saves current paint style
+        paint.setStyle(Style.STROKE); // sets paint style to stroke, for the outline
+        o.getShape().accept(this); // draws inner shape with an outline
+        paint.setStyle(originalStyle); // instates the original paint style
         return null;
     }
 
     @Override
     public Void onPolygon(final Polygon s) {
+        // creates a list of lines that results in connecting vertices
+        final float[] pts = new float[s.getPoints().size() * 4]; // 4 values per line
+        int i = 0;
+        for (int j = 0; j < s.getPoints().size(); j++) {
+            Point p1 = s.getPoints().get(j);
+            Point p2 = s.getPoints().get((j + 1) % s.getPoints().size()); // connects 1st and last vertices
+            pts[i++] = p1.getX();
+            pts[i++] = p1.getY();
+            pts[i++] = p2.getX();
+            pts[i++] = p2.getY();
+        }
 
-        final float[] pts = null;
-
-        canvas.drawLines(pts, paint);
+        canvas.drawLines(pts, paint); // draws the polygon lines
         return null;
     }
 }
