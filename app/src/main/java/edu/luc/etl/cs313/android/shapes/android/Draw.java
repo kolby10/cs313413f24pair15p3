@@ -17,9 +17,9 @@ public class Draw implements Visitor<Void> {
     private final Paint paint;
 
     public Draw(final Canvas canvas, final Paint paint) {
-        this.canvas = null; // FIXME
-        this.paint = null; // FIXME
-        paint.setStyle(Style.STROKE);
+        this.canvas = canvas; // stores presented canvas
+        this.paint = paint; // stores presented paint
+        paint.setStyle(Style.STROKE); // sets selected paint style
     }
 
     @Override
@@ -30,25 +30,40 @@ public class Draw implements Visitor<Void> {
 
     @Override
     public Void onStrokeColor(final StrokeColor c) {
-
+        // changes paint color while drawing inner shape, then reverts to original color
+        int originalColor = paint.getColor(); // stores current color
+        paint.setColor(c.getColor()); // sets inner shape color
+        c.getShape().accept(this); // draws inner shape
+        paint.setColor(originalColor); // restores color
         return null;
     }
 
     @Override
     public Void onFill(final Fill f) {
-
+        // changes paint color to the color needed to shape fill
+        Style originalStyle = paint.getStyle(); // saves current color
+        paint.setStyle(Style.FILL); // changes paint to FILL style
+        f.getShape().accept(this); // draws inner shape
+        paint.setStyle(originalStyle); // reverts to original color
         return null;
     }
 
     @Override
     public Void onGroup(final Group g) {
-
+        // loops through all shapes to draw them individually
+        for (Shape shape : g.getShapes()) {
+            shape.accept(this); // draws each shape
+        }
         return null;
     }
 
     @Override
     public Void onLocation(final Location l) {
-
+        // moves position to draw new shape, resets after
+        canvas.save(); // saves current canvas
+        canvas.translate(l.getX(), l.getY()); // moves canvas to new location
+        l.getShape().accept(this); // draws the shape @ new location
+        canvas.restore(); // reverts canvas to original location
         return null;
     }
 
