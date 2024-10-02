@@ -34,8 +34,8 @@ public class BoundingBox implements Visitor<Location> {
             Rectangle rect = (Rectangle) loc.getShape();
             minX = Math.min(minX, loc.getX()); //35-38 updates coordinates for current shape, based on bounding box
             minY = Math.min(minY, loc.getY());
-            maxX = Math.max(maxX, loc.getX());
-            maxY = Math.max(maxY, loc.getY());
+            maxX = Math.max(maxX, loc.getX() + rect.getWidth());
+            maxY = Math.max(maxY, loc.getY() + rect.getHeight());
 
         }
 
