@@ -13,4 +13,4 @@ TestBoundingBox 9/9
 TestDraw 3/3
 
 TODO: 
-Fix output, missing polygon, leftmost shape shouldn't be filled & surrounding box isn't present
+Fix output, missing polygon, leftmost shape shouldn't be filled & surrounding box isn't present.
