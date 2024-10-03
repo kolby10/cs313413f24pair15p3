@@ -3,7 +3,9 @@ package edu.luc.etl.cs313.android.shapes.android;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
+import java.util.List;
 import edu.luc.etl.cs313.android.shapes.model.*;
+
 
 /**
  * A Visitor for drawing a shape to an Android canvas.
@@ -29,19 +31,19 @@ public class Draw implements Visitor<Void> {
 
     @Override
     public Void onStrokeColor(final StrokeColor c) {
+        int originalColor = paint.getColor();
         paint.setColor(c.getColor());
-        paint.setStyle(Style.FILL_AND_STROKE);
         c.getShape().accept(this);
-        paint.setColor(0);
-        paint.setStyle(Style.STROKE);
+        paint.setColor(originalColor);
         return null;
     }
 
     @Override
     public Void onFill(final Fill f) {
-        paint.setStyle(Style.FILL);
+        Paint.Style originalStyle = paint.getStyle();
+        paint.setStyle(Paint.Style.FILL_AND_STROKE);
         f.getShape().accept(this);
-        paint.setStyle(Style.STROKE);
+        paint.setStyle(originalStyle);
         return null;
     }
 
@@ -68,24 +70,28 @@ public class Draw implements Visitor<Void> {
     }
 
     @Override
-    public Void onOutline(Outline o) {
-        paint.setStyle(Style.STROKE);
+    public Void onOutline(final Outline o) {
+        Paint.Style originalStyle = paint.getStyle();
+        paint.setStyle(Paint.Style.STROKE);
         o.getShape().accept(this);
-        paint.setStyle(Style.FILL); 
+        paint.setStyle(originalStyle);
         return null;
     }
 
     @Override
     public Void onPolygon(final Polygon s) {
-        final float[] points = new float[s.getPoints().size() * 4];
+        final List<? extends Point> points = s.getPoints();
+        final float[] lines = new float[points.size() * 4];
         int i = 0;
-        for (Point p : s.getPoints()) {
-            points[i++] = p.getX();
-            points[i++] = p.getY();
-            points[i++] = p.getX();
-            points[i++] = p.getY();
+        for (int j = 0; j < points.size(); j++) {
+            Point p1 = points.get(j);
+            Point p2 = points.get((j + 1) % points.size());
+            lines[i++] = p1.getX();
+            lines[i++] = p1.getY();
+            lines[i++] = p2.getX();
+            lines[i++] = p2.getY();
         }
-        canvas.drawLines(points, paint);
+        canvas.drawLines(lines, paint);
         return null;
     }
 }
