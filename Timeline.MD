@@ -5,14 +5,15 @@ StrokeColor.java - kolby
 BoundingBox.java - kolby, nick
 Draw.java - kolby
 Point.java - nick
+DrawWidget.java - kolby
 
-
-
-TODO
-DrawWidget.java
+FIX
+DrawWidget.java,
+10/3, updated to complexGroup, completes TODO, still failing 2 tests
 
 
 TESTS
 TestCount 10/10
 TestBoundingBox 9/9
-TestDraw 0/3, issue w GroupSimple/GroupComplex
+TestDraw 1/3
+

@@ -25,16 +25,15 @@ public class Draw implements Visitor<Void> {
     @Override
     public Void onCircle(final Circle c) {
         canvas.drawCircle(0, 0, c.getRadius(), paint);
+        canvas.translate(-200.0f, -100.0f);
         return null;
     }
 
     @Override
     public Void onStrokeColor(final StrokeColor c) {
         // changes paint color while drawing inner shape, then reverts to original color
-        int originalColor = paint.getColor(); // stores current color
-        paint.setColor(c.getColor()); // sets inner shape color
-        c.getShape().accept(this); // draws inner shape
-        paint.setColor(originalColor); // restores color
+        paint.setColor(c.getColor());
+        paint.setStyle(Paint.Style.FILL_AND_STROKE);
         return null;
     }
 
@@ -70,7 +69,8 @@ public class Draw implements Visitor<Void> {
     @Override
     public Void onRectangle(final Rectangle r) {
         // draws rectangle at (0, 0), getWidth/getHeight adjusts based on requirements
-        canvas.drawRect(0, 0, r.getWidth(), r.getHeight(), paint); // draw the rectangle
+        canvas.drawRect(0, 0, r.getWidth(), r.getHeight(), paint);
+        canvas.translate(-70.0f, -30.0f);
         return null;
     }
 
