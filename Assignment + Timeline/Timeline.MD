@@ -7,13 +7,10 @@ Draw.java - kolby
 Point.java - nick
 DrawWidget.java - kolby
 
-FIX
-DrawWidget.java,
-10/3, updated to complexGroup, completes TODO, still failing 2 tests
-
-
-TESTS
+TESTS (as of 10/3/24, 2:04PM)
 TestCount 10/10
 TestBoundingBox 9/9
-TestDraw 1/3
+TestDraw 3/3
 
+TODO: 
+Fix output, missing polygon, leftmost shape shouldn't be filled & surrounding box isn't present
