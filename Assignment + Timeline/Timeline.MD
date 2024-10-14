@@ -12,11 +12,4 @@ TestCount 10/10
 TestBoundingBox 9/9
 TestDraw 3/3
 
-TODO: 
-Fix Output:
-Polygon showing up now, but wrong color? Looks cyan in example but blue in output
-Black Box/Circle still filled, needs to just be outlined
-Outline around all shapes missing
-
-Code Cleanup?:
-Seems a bit messy, not sure if they care
+Done, output correct

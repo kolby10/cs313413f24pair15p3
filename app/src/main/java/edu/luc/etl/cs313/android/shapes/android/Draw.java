@@ -21,6 +21,7 @@ public class Draw implements Visitor<Void> {
     public Draw(final Canvas canvas, final Paint paint) {
         this.canvas = canvas;
         this.paint = paint;
+        paint.setStyle(Style.STROKE);
     }
 
     @Override
@@ -41,7 +42,7 @@ public class Draw implements Visitor<Void> {
     @Override
     public Void onFill(final Fill f) {
         Paint.Style originalStyle = paint.getStyle();
-        paint.setStyle(Paint.Style.FILL_AND_STROKE);
+        paint.setStyle(Style.FILL_AND_STROKE);
         f.getShape().accept(this);
         paint.setStyle(originalStyle);
         return null;
@@ -72,7 +73,7 @@ public class Draw implements Visitor<Void> {
     @Override
     public Void onOutline(final Outline o) {
         Paint.Style originalStyle = paint.getStyle();
-        paint.setStyle(Paint.Style.STROKE);
+        paint.setStyle(Style.STROKE);
         o.getShape().accept(this);
         paint.setStyle(originalStyle);
         return null;
